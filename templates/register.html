@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #EECFBA, #C5DDE8);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .signup-container {
+            background-color: #fff;
+            padding: 40px; /* Increased padding */
+            border-radius: 10px; /* Increased border radius */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Increased box shadow */
+            width: 400px; /* Increased form width */
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center form content horizontally */
+        }
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%; /* Full width for input fields */
+            padding: 10px;
+            margin-bottom: 20px; /* Increased margin bottom */
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="checkbox"] {
+            margin-right: 5px; /* Adjusted spacing */
+        }
+        label.checkbox-label {
+            display: inline-block;
+            margin-bottom: 20px; /* Increased margin bottom */
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 24px; /* Increased padding */
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        .terms-link {
+            color: #007bff; /* Link color */
+            text-decoration: none; /* Remove underline */
+        }
+    </style>
+</head>
+<body>
+{% block body %}
+{% if messages %}
+{% for message in messages %}
+{% if message.tags %}
+<script>alert ("{{ message }}")</script>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+    <div class="signup-container">
+        <form action="{% url 'sdetails' %}" method="POST">
+            {% csrf_token %}
+            <h2>Sign Up</h2>
+
+            <input type="text" name="name" id="name" placeholder="Full Name" required>
+
+            <input type="email" name="email" id="email" placeholder="Email Address" required>
+
+            <input type="password" name="password" id="password" placeholder="Password" required>
+
+            <input type="password" name="repassword" id="repassword" placeholder="Re-enter Password" required>
+            <label class="checkbox-label">
+                <input type="checkbox" id="agree_terms" required> I agree to all statements in <a href="terms_of_service.html" class="terms-link">Terms & Conditions</a>
+            </label>
+            <br>
+            <input type="submit" value="Sign Up"><br>
+            <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="login"
+                class="fw-bold text-body"><u>Login here</u></a></p>
+        </form>
+    </div>
+
+
+<script >
+        document.addEventListener('DOMContentLoaded', function () {
+    const registrationForm = document.getElementById('registrationForm');
+
+    registrationForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const name = registrationForm.querySelector('#name').value;
+        const email = registrationForm.querySelector('#email').value;
+        const password = registrationForm.querySelector('#password').value;
+        const rePassword = registrationForm.querySelector('#rePassword').value;
+
+
+        // Validate password complexity
+        const passwordRegex = /^(?=.[A-Za-z])(?=.\d)(?=.[@$!%#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+        if (!passwordRegex.test(password)) {
+            alert('Password must contain at least 8 characters, including special symbol, uppercase letter, and number.');
+            return;
+        }
+
+        // Validate email format
+        if (!email.includes('@gmail.com')) {
+            alert('Invalid email format');
+            return;
+        }
+        // Check if passwords match
+        if (password !== rePassword) {
+            alert('Passwords do not match.');
+            return;
+        }
+
+        // Store registration details in localStorage or send to server for storage
+        localStorage.setItem('name', name);
+        localStorage.setItem('email', email);
+        localStorage.setItem('password', password);
+        localStorage.setItem('repassword', repassword);
+
+        alert('Registration successful! You can now login.');
+        window.location.href = 'login.html'; // Redirect to login page
+    });
+});
+
+    </script>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,244 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        .navbar-custom {
+            background-color: #aa80f3;
+        }
+        .navbar-custom .navbar-brand {
+            color: white;
+        }
+        .navbar-custom .navbar-brand:focus {
+            color: #ffffff;
+        }
+        .navbar-custom .navbar-brand img {
+            height: 30px;
+            margin-right: 10px;
+        }
+        .center {
+            align-items: center;
+            padding: 20px;
+            height: 100%;
+        }
+        .navbar-brand,
+        .navbar-nav .nav-link {
+            color: #212529;
+            margin-right: 40px;
+        }
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        /* Custom Styles */
+        .card {
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        .card-text {
+            font-size: 18px;
+            color: #555555;
+        }
+
+        .about-section {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <h4>TASK MANAGEMENT SYSTEM</h4>
+            </a>
+        </div>
+    </nav>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'main' %}">Home</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'aboutus' %}">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contactus' %}">Contact Us</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Tasks
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Add Tasks</a></li>
+                            <li><a class="dropdown-item" href="#">Calendar</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Other Modules</a></li>
+                        </ul>
+                    </li>
+                   <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="#" onclick="displayAlert()">View Tasks</a>
+</li>
+
+<script>
+    function displayAlert() {
+        window.alert("Please login First");
+    }
+</script>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'register' %}">Register</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active" >
+                <img src="{% static 'im1.jpg' %}" class="d-block w-100" alt="Task Management Image 1" width="10%" height="80%">
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'im2.jpeg' %}" class="d-block w-100" alt="Task Management Image 2" width="6px" height="70%">
+            </div>
+            <div class="carousel-item">
+                <img src="{% static 'im1.jpg' %}" class="d-block w-100" alt="Task Management Image 3" width="10%" height="80%">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <div class="container my-5 about-section">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">About Task Management</h2>
+                <p class="card-text">Task management is the process of managing a task through its life cycle. It involves planning, testing, tracking, and reporting on tasks. Effective task management is crucial for completing projects on time, within budget, and with high quality.</p>
+                <p class="card-text">Our Task Management System provides a comprehensive solution for individuals and teams to manage their tasks efficiently. With our user-friendly interface, you can easily create, assign, and track tasks, set due dates, and prioritize your workload.</p>
+            </div>
+        </div>
+    </div>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Benefits of Task Management</h3>
+                    <ul class="card-text">
+                        <li>Increased productivity and efficiency</li>
+                        <li>Better time management and prioritization</li>
+                        <li>Improved collaboration and communication</li>
+                        <li>Enhanced organization and focus</li>
+                        <li>Reduced stress and overwhelm</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Key Features</h3>
+                    <ul class="card-text">
+                        <li>Task creation and assignment</li>
+                        <li>Due date and priority settings</li>
+                        <li>Progress tracking and status updates</li>
+                        <li>Reminders and notifications</li>
+                        <li>Collaborative workspace and file sharing</li>
+                        <li>Reporting and analytics</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title text-center">Testimonials</h3>
+                    <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <blockquote class="blockquote">
+                                    <p>"The Task Management System has completely transformed the way our team works. We can now easily collaborate, assign tasks, and track progress, which has significantly improved our productivity and efficiency."</p>
+                                    <footer class="blockquote-footer">John Doe, Project Manager</footer>
+                                </blockquote>
+                            </div>
+                            <div class="carousel-item">
+                                <blockquote class="blockquote">
+                                    <p>"I love how user-friendly and intuitive the Task Management System is. It has helped me stay organized and on top of my tasks, reducing stress and increasing my overall productivity."</p>
+                                    <footer class="blockquote-footer">Jane Smith, Freelancer</footer>
+                                </blockquote>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <br>
+    <br>
+
+    <footer>
+        © 2024 Task Management System. All rights reserved.
+    </footer>
+
+    <script>
+        var myCarousel = document.querySelector('#carouselExampleAutoplaying')
+        var carousel = new bootstrap.Carousel(myCarousel, {
+            interval: 3000,
+            wrap: true
+        })
+    </script>
+</body>
+</html>

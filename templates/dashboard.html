@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Task Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Styles for chatbot */
+        .navbar-custom {
+            background-color: #aa80f3;
+        }
+        .navbar-custom .navbar-brand {
+            color: white;
+        }
+        .navbar-custom .navbar-brand:focus {
+            color: #ffffff;
+        }
+        .navbar-custom .navbar-brand img {
+            height: 30px;
+            margin-right: 10px;
+        }
+        .navbar-brand,
+        .navbar-nav .nav-link {
+            color: #212529;
+            margin-right: 40px;
+        }
+        footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .container {
+            padding-top: 20px;
+        }
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            background-color: #fff;
+            margin-bottom: 20px; /* Added margin for better alignment */
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .btn-primary {
+            background-color: #673ab7;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .btn-primary:hover {
+            background-color: #5a36a8;
+        }
+        .btn-outline-primary {
+            color: #673ab7;
+            border: 2px solid #673ab7;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        .btn-outline-primary:hover {
+            background-color: #673ab7;
+            color: #fff;
+        }
+        .icon {
+            font-size: 40px;
+            color: #673ab7;
+        }
+        .feature {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .feature h3 {
+            color: #673ab7;
+        }
+        /* Styles for chatbot */
+        .chat-icon {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            cursor: pointer;
+            z-index: 999; /* Ensure the chat icon appears above other elements */
+        }
+        .chat-container {
+            display: none; /* Initially hidden */
+            position: fixed;
+            bottom: 100px;
+            right: 50px;
+            width: 300px;
+            height: 400px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            overflow-y: auto;
+            z-index: 999; /* Ensure the chat window appears above other elements */
+        }
+        .chat-header {
+            background-color: #aa80f3;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+        .chat-body {
+            padding: 10px;
+        }
+        .chat-input {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 8px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            outline: none;
+        }
+        .chat-input button {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <h4>WELCOME TO TASK MANAGEMENT SYSTEM</h4>
+        </a>
+        <h3 align="right" style="color:white;"> Hello  </h3>
+    </div>
+</nav>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'dashboard' %}">Home</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'aboutus' %}">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contactus' %}">Contact US</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Tasks
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'task' %}">Add Tasks</a></li>
+                        <li><a class="dropdown-item" href="{% url 'calendar' %}">Calendar</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Modify Tasks</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'vtask' %}">View Tasks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'main' %}" style="margin-right:50px;">Log Out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<br>
+<br>
+<br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="bi bi-calendar3 icon"></i>
+                    <h5 class="card-title">Calendar</h5>
+                    <p class="card-text">Keep track of your tasks with our interactive calendar.</p>
+                    <a href="{% url 'calendar' %}" class="btn btn-primary">Go to Calendar</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="bi bi-list-task icon"></i>
+                    <h5 class="card-title">Manage Tasks</h5>
+                    <p class="card-text">Easily add, view, and modify your tasks.</p>
+                    <a href="{% url 'task' %}" class="btn btn-primary">Create Task</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="bi bi-chat-dots icon"></i>
+                    <h5 class="card-title">Chat with Us</h5>
+                    <p class="card-text">Have questions? Chat with our support team.</p>
+                    <!-- Chat button -->
+                    <button class="btn btn-outline-primary" onclick="toggleChat()">Chat Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row feature">
+        <div class="col-md-4">
+            <h3>Task Analytics</h3>
+            <p>Track your productivity and analyze your task completion trends.</p>
+        </div>
+        <div class="col-md-4">
+            <h3>Notifications</h3>
+            <p>Receive timely notifications and reminders for upcoming tasks.</p>
+        </div>
+        <div class="col-md-4">
+            <h3>Collaboration</h3>
+            <p>Collaborate with your team members by sharing tasks and updates.</p>
+        </div>
+    </div>
+</div>
+
+<footer>
+    © 2024 Task Management System. All rights reserved.
+</footer>
+
+<!-- Chat icon -->
+<div class="chat-icon" onclick="toggleChat()">
+    <i class="bi bi-chat-dots-fill icon"></i>
+</div>
+
+<!-- Chat container -->
+<div class="chat-container" id="chat-container">
+    <div class="chat-header">Chat with Us</div>
+    <div class="chat-body" id="chat-body">
+        <div class="bot-message">Welcome to Task Management System! How can I assist you today?</div>
+    </div>
+    <div class="chat-input">
+        <input type="text" id="inputMessage" placeholder="Type your message...">
+        <button class="btn btn-outline-primary" onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function toggleChat() {
+        var chatContainer = document.getElementById("chat-container");
+        if (chatContainer.style.display === "none" || chatContainer.style.display === "") {
+            chatContainer.style.display = "block";
+        } else {
+            chatContainer.style.display = "none";
+        }
+    }
+
+    function sendMessage() {
+        var inputMessage = document.getElementById("inputMessage").value.trim();
+        if (inputMessage === "") return;
+        var chatBody = document.getElementById("chat-body");
+        var userMessage = document.createElement("div");
+        userMessage.classList.add("chat-message", "user-message");
+        userMessage.textContent = inputMessage;
+        chatBody.appendChild(userMessage);
+        chatBody.scrollTop = chatBody.scrollHeight;
+        document.getElementById("inputMessage").value = "";
+
+        // Process user's message and generate response
+        var botResponse = getBotResponse(inputMessage);
+        var botMessage = document.createElement("div");
+        botMessage.classList.add("chat-message", "bot-message");
+        botMessage.textContent = botResponse;
+        chatBody.appendChild(botMessage);
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    // Function to generate bot response based on user input
+  function getBotResponse(inputMessage) {
+    // Convert the user's input to lowercase for case-insensitive comparison
+    var userInput = inputMessage.toLowerCase();
+
+    // Define some sample responses based on different user inputs
+    var responses = {
+        "hi": "Hi there! How can I help you?",
+        "hello": "Hi there! How can I help you?",
+        "how are you": "I'm just a bot, but thanks for asking!",
+        "my tasks":"you can check in view tasks section for all your tasks",
+        "tasks": "You can add, view, and modify your tasks using the ' Tasks' section.",
+        "calendar": "You can access the interactive calendar from the 'Calendar' section.",
+        "thank you": "You're welcome! If you have any more questions, feel free to ask.",
+        "tell me about task management":"Task management involves organizing, prioritizing, and tracking tasks to ensure efficient completion within given deadlines, often facilitated by tools or methodologies such as to-do lists, calendars, or project management software.",
+        "default": "I'm sorry, I didn't understand that. Can you please rephrase?",
+
+    };
+
+    // Check if the user's input matches any predefined responses
+    for (var key in responses) {
+        if (userInput.includes(key)) {
+            return responses[key];
+        }
+    }
+
+    // If no predefined response matches, return a default response
+    return responses["default"];
+}
+
+</script>
+</body>
+</html>

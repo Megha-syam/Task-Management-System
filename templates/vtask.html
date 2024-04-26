@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333333;
+            margin-bottom: 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .navbar-icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-icon {
+            margin-right: 20px;
+            color: #333333;
+            cursor: pointer;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .navbar-icon:hover {
+            color: #4CAF50;
+        }
+
+        .navbar-icon .icon {
+            font-size: 28px;
+        }
+
+        .navbar-icon .count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: #4CAF50;
+            color: #fff;
+            font-size: 12px;
+            padding: 4px;
+            border-radius: 50%;
+        }
+
+        table {
+            width: 90%;
+            border-collapse: collapse;
+            margin: 20px auto;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background-color: #CEAFAF;
+            color: #333333;
+            font-weight: bold;
+        }
+
+        .task-card {
+            background-color: #CEAFAF;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .task-name {
+            font-weight: bold;
+            color: #333333;
+        }
+
+        .task-description {
+            color: #666666;
+        }
+
+        .task-deadline {
+            font-style: italic;
+            color: #888888;
+        }
+
+        .task-subject {
+            color: #555555;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+        }
+
+        .actions a {
+            color: #333333;
+            text-decoration: none;
+            margin-right: 10px;
+            transition: color 0.3s;
+        }
+
+        .actions a:hover {
+            color: #4CAF50;
+        }
+
+        .delete-button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .delete-button:hover {
+            color: #FF5722;
+        }
+
+        .complete-button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .complete-button:hover {
+            color: #2196F3;
+        }
+
+    </style>
+</head>
+<body>
+{% include 'messages.html' %}
+<div class="navbar">
+    {% include 'navbar.html' %} <!-- Include the navbar -->
+    <div class="navbar-icons">
+        <div class="navbar-icon" id="todoIcon" title="To Do">
+            <i class="fas fa-clipboard-list icon"></i>
+            <span class="count" id="todoCount">0</span>
+        </div>
+        <div class="navbar-icon" id="doingIcon" title="Doing">
+            <i class="fas fa-tasks icon"></i>
+            <span class="count" id="doingCount">0</span>
+        </div>
+        <div class="navbar-icon" id="doneIcon" title="Done">
+            <i class="fas fa-check-circle icon"></i>
+            <span class="count" id="doneCount">0</span>
+        </div>
+    </div>
+</div>
+
+<h1>My Tasks</h1>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Deadline</th>
+        <th>Subject</th>
+        <th>Actions</th> <!-- Added Actions column -->
+    </tr>
+<!-- Modify the rendering of tasks to include data attribute with due date -->
+{% for taskshow in t %}
+<tr>
+    <td>{{ taskshow.name }}</td>
+    <td>{{ taskshow.description }}</td>
+    <td data-due-date="{{ taskshow.dueDate }}">{{ taskshow.deadline }}</td>
+    <td>{{ taskshow.subject }}</td>
+    <td class="actions">
+        <a href="{% url 'updtask' pk=taskshow.pk %}" title="Update"><i class="fas fa-edit"></i></a>
+        <button type="button" class="complete-button" onclick="completeTask('{{ taskshow.pk }}')" title="Complete Task"><i class="fas fa-check"></i></button>
+        <!-- Make sure the delete link sends a POST request -->
+        <form id="delete-form-{{ taskshow.pk }}" action="{% url 'deltask' pk=taskshow.pk %}" method="post">
+            {% csrf_token %}
+            <button type="button" class="delete-button" onclick="confirmDelete('{{ taskshow.pk }}')" title="Delete"><i class="fas fa-trash-alt"></i></button>
+        </form>
+    </td>
+</tr>
+{% endfor %}
+
+</table>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+<script>
+    // Mock tasks for demonstration
+    const tasks = [
+        { id: 1, status: 'todo' },
+        { id: 2, status: 'doing' },
+        { id: 3, status: 'done' },
+        { id: 4, status: 'todo' },
+        { id: 5, status: 'done' },
+    ];
+
+    const todoIcon = document.getElementById('todoIcon');
+    const doingIcon = document.getElementById('doingIcon');
+    const doneIcon = document.getElementById('doneIcon');
+    const todoCount = document.getElementById('todoCount');
+    const doingCount = document.getElementById('doingCount');
+    const doneCount = document.getElementById('doneCount');
+
+    updateCounts();
+
+    function updateCounts() {
+        const todoTasks = tasks.filter(task => task.status === 'todo');
+        const doingTasks = tasks.filter(task => task.status === 'doing');
+        const doneTasks = tasks.filter(task => task.status === 'done');
+
+        todoCount.textContent = todoTasks.length;
+        doingCount.textContent = doingTasks.length;
+        doneCount.textContent = doneTasks.length;
+    }
+
+    function completeTask(taskId) {
+        // Update task status to 'done' in the tasks array
+        const taskIndex = tasks.findIndex(task => task.id === parseInt(taskId));
+        if (taskIndex !== -1) {
+            tasks[taskIndex].status = 'done';
+            updateCounts();
+            showTaskStatus(tasks);
+        }
+    }
+
+    function showTaskStatus(tasks) {
+        const todoTasks = tasks.filter(task => task.status === 'todo');
+        const doingTasks = tasks.filter(task => task.status === 'doing');
+        const doneTasks = tasks.filter(task => task.status === 'done');
+
+        console.clear();
+        console.log('To Do:');
+        console.table(todoTasks);
+        console.log('Doing:');
+        console.table(doingTasks);
+        console.log('Done:');
+        console.table(doneTasks);
+    }
+
+    function confirmDelete(taskId) {
+        if (confirm('Are you sure you want to delete this task?')) {
+            document.getElementById('delete-form-' + taskId).submit();
+            // After submission, show alert
+            alert('Task deleted successfully!');
+        }
+    }
+</script>
+
+</body>
+</html>
